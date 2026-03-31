@@ -36,13 +36,14 @@ echo "$meta" | jq -e '.region' >/dev/null 2>&1 && add_ok "PASS: metadata has reg
 echo "$meta" | jq -e '.network.vpc' >/dev/null 2>&1 && add_ok "PASS: metadata has VPC" || add_fail "FAIL: metadata missing VPC"
 echo "$meta" | jq -e '.network.subnet' >/dev/null 2>&1 && add_ok "PASS: metadata has subnet" || add_fail "FAIL: metadata missing subnet"
 
+#Had to make changes due to working on MacOS
 status="PASS"; exit_code=0
-if (( ${#failures[@]} > 0 )); then status="FAIL"; exit_code=2; fi
+if (( ${#failures[@]:-0} > 0 )); then status="FAIL"; exit_code=2; fi
 
 [[ "$status" == "PASS" ]] && echo "GREEN" > "$BADGE" || echo "RED" > "$BADGE"
 
-details_json="$(printf '%s\n' "${details[@]}" | jq -R . | jq -s .)"
-failures_json="$(printf '%s\n' "${failures[@]}" | jq -R . | jq -s .)"
+details_json="$(printf '%s\n' "${details[@]-}" | jq -R . | jq -s .)"
+failures_json="$(printf '%s\n' "${failures[@]-}" | jq -R . | jq -s .)"
 
 cat > "$OUT_JSON" <<EOF
 {

@@ -1,6 +1,6 @@
-#Chewbacca: A firewall rule so port 80 can sing to the world.
-resource "google_compute_firewall" "chewbacca_allow_http" {
-  name    = "chewbacca-allow-http"
+#hyrule: A firewall rule so port 80 can sing to the world.
+resource "google_compute_firewall" "hyrule_allow_http" {
+  name    = "hyrule-allow-http"
   network = "default"
 
   allow {
@@ -11,33 +11,33 @@ resource "google_compute_firewall" "chewbacca_allow_http" {
   source_ranges = ["0.0.0.0/0"]
 }
 
-#Chewbacca: The startup script is your first automation spell.
+#hyrule: The startup script is your first automation spell.
 locals {
   startup_script = <<-EOT
     #!/bin/bash
     set -euo pipefail
 
-    #Chewbacca: This node serves proof-of-life.
+    #hyrule: This node serves proof-of-life.
     apt-get update -y
     apt-get install -y nginx curl jq
 
     METADATA="http://metadata.google.internal/computeMetadata/v1"
     HDR="Metadata-Flavor: Google"
-    md() { curl -fsS -H "$HDR" "${METADATA}/$1" || echo "unknown"; }
+    md() { curl -fsS -H "$HDR" "$${METADATA}/$1" || echo "unknown"; }
 
     INSTANCE_NAME="$(md instance/name)"
     HOSTNAME="$(hostname)"
     PROJECT_ID="$(md project/project-id)"
     ZONE_FULL="$(md instance/zone)"
-    ZONE="${ZONE_FULL##*/}"
-    REGION="${ZONE%-*}"
+    ZONE="$${ZONE_FULL##*/}"
+    REGION="$${ZONE%-*}"
 
     INTERNAL_IP="$(md instance/network-interfaces/0/ip)"
     EXTERNAL_IP="$(md instance/network-interfaces/0/access-configs/0/external-ip)"
     VPC_FULL="$(md instance/network-interfaces/0/network)"
     SUBNET_FULL="$(md instance/network-interfaces/0/subnetwork)"
-    VPC="${VPC_FULL##*/}"
-    SUBNET="${SUBNET_FULL##*/}"
+    VPC="$${VPC_FULL##*/}"
+    SUBNET="$${SUBNET_FULL##*/}"
 
     STUDENT_NAME="$(md instance/attributes/student_name)"
     [[ -z "$STUDENT_NAME" || "$STUDENT_NAME" == "unknown" ]] && STUDENT_NAME="Anonymous Padawan (temporarily)"
@@ -128,7 +128,7 @@ locals {
         <p><span class="k">VPC:</span> $VPC <span class="k">Subnet:</span> $SUBNET</p>
         <p><span class="k">External IP:</span> $EXTERNAL_IP</p>
         <p><a href="/healthz">/healthz</a> | <a href="/metadata">/metadata</a></p>
-        <p>#Chewbacca: You didn’t click your way here. You automated.</p>
+        <p>#hyrule: You didn’t click your way here. You automated.</p>
       </div>
     </body>
     </html>
@@ -139,8 +139,8 @@ locals {
   EOT
 }
 
-#Chewbacca: The compute instance—your first reproducible node.
-resource "google_compute_instance" "chewbacca_vm" {
+#hyrule: The compute instance—your first reproducible node.
+resource "google_compute_instance" "hyrule_vm" {
   name         = var.vm_name
   machine_type = "e2-micro"
   zone         = var.zone
@@ -158,20 +158,20 @@ resource "google_compute_instance" "chewbacca_vm" {
   }
 
   metadata = {
-    #Chewbacca: The banner is identity. Make it yours.
+    #hyrule: The banner is identity. Make it yours.
     student_name = var.student_name
   }
 
   metadata_startup_script = local.startup_script
 
-  tags = ["chewbacca-web"]
+  tags = ["hyrule-web"]
 }
 
-#Chewbacca: Outputs are how automation speaks to other automation.
+#hyrule: Outputs are how automation speaks to other automation.
 output "vm_external_ip" {
-  value = google_compute_instance.chewbacca_vm.network_interface[0].access_config[0].nat_ip
+  value = google_compute_instance.hyrule_vm.network_interface[0].access_config[0].nat_ip
 }
 
 output "vm_url" {
-  value = "http://${google_compute_instance.chewbacca_vm.network_interface[0].access_config[0].nat_ip}"
+  value = "http://${google_compute_instance.hyrule_vm.network_interface[0].access_config[0].nat_ip}"
 }
