@@ -1,16 +1,3 @@
-#hyrule: A firewall rule so port 80 can sing to the world.
-resource "google_compute_firewall" "hyrule_allow_http" {
-  name    = "hyrule-allow-http"
-  network = "default"
-
-  allow {
-    protocol = "tcp"
-    ports    = ["80"]
-  }
-
-  source_ranges = ["0.0.0.0/0"]
-}
-
 #hyrule: The startup script is your first automation spell.
 locals {
   startup_script = <<-EOT
@@ -151,11 +138,11 @@ resource "google_compute_instance" "hyrule_vm" {
     }
   }
 
-  network_interface {
-    network = "default"
-
-    access_config {} # External IP
-  }
+ network_interface {
+  network    = google_compute_network.zoras_domain.id
+  subnetwork = google_compute_subnetwork.death_mountain.id
+  access_config {}
+}
 
   metadata = {
     #hyrule: The banner is identity. Make it yours.
