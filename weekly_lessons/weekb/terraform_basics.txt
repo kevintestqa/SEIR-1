@@ -1,0 +1,46 @@
+0 Authentication via gitbash
+
+Use Application Default Credentials (ADC):
+
+    Terraform Authentication Command: gcloud auth application-default login
+
+1 Run 0-authentication.tf
+
+        terraform init
+        terraform validate
+        terraform plan
+        terraform apply
+
+2 Bucket---> Make a bucket
+
+The GCS backend bucket must be created first, before terraform init,
+because Terraform cannot use a backend that does not already exist.
+
+3 Run 
+0-authentication.tf
+1-backend.tf
+
+        terraform init update
+        terraform validate
+        terraform plan
+        terraform apply
+
+4) Run
+0-authentication.tf
+1-backend.tf
+2-vpc
+
+        terraform init 
+        terraform validate
+        terraform plan
+        terraform apply  
+
+
+
+
+VM
+
+If your script fails then run
+
+        sudo journalctl -u google-startup-scripts.service
+
