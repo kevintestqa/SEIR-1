@@ -20,12 +20,4 @@ provider "google" {
 }
 
 
-resource "null_resource" "check_ansible" {
-  triggers = {
-    always_run = timestamp()
-  }
 
-  provisioner "local-exec" {
-    command = "ansible --version"
-  }
-}
