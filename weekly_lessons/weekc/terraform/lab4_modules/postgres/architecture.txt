@@ -1,0 +1,12 @@
+Internet
+   ↓
+WAF
+   ↓
+HTTPS LB
+   ↓
+MIG
+   ↓
+   ├── Chewbacca (bad)
+   └── Han (Secret Manager) 🔥
+   ↓
+Postgres (private)

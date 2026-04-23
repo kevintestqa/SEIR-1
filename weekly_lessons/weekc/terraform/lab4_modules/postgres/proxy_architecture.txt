@@ -1,0 +1,11 @@
+Internet
+   ↓
+WAF
+   ↓
+HTTPS LB
+   ↓
+MIG
+   ↓
+Cloud SQL Auth Proxy 🔥
+   ↓
+Postgres (private, no exposure)
