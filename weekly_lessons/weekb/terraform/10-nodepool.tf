@@ -13,7 +13,7 @@ resource "google_container_node_pool" "general" {
   }
 
   node_config {
-    machine_type = "n2-standard-8"
+    machine_type = "e2-standard-4"
 
     labels = {
       role = "general"

@@ -11,3 +11,6 @@ Students failed to delvier previous homework.  This is Warning #1.
 
 This week: Screenshot entire TF deployment process. 
 And https://github.com/BalericaAI/SEIR-1/blob/main/weekly_lessons/weekb/weekb_homework.txt
+
+2026 June 5th
+https://github.com/BalericaAI/SEIR-1/blob/main/weekly_lessons/weekd_VPN/test.md
